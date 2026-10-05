@@ -133,3 +133,80 @@ main {
   text-align: center;
   padding: 24px 0;
 }
+
+/* ป้ายบอกทางในรายการบท */
+.chapter-next {
+  display: block;
+  margin: 2px 0 0 38px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== หน้าเขียน ===== */
+.editor-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 4px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.editor-bar .spacer { flex: 1; }
+.save-status { font-size: 0.8rem; color: var(--muted); }
+
+.editor {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.title-input,
+.status-select,
+.note-input,
+.content-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+.title-input:focus,
+.status-select:focus,
+.note-input:focus,
+.content-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.title-input { font-size: 1.15rem; font-weight: 600; }
+.note-input { min-height: 84px; resize: vertical; }
+.content-input {
+  min-height: 55vh;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  resize: vertical;
+}
+
+.counts {
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
