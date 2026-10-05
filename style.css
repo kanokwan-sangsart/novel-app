@@ -1,0 +1,135 @@
+:root {
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --text: #222222;
+  --muted: #777777;
+  --accent: #4a6fa5;
+  --on-accent: #ffffff;
+  --border: #e3e3dc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16181d;
+    --card: #20232a;
+    --text: #e8e8e8;
+    --muted: #9aa0a6;
+    --accent: #7fa6dc;
+    --on-accent: #10141a;
+    --border: #32363f;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, "Noto Sans Thai", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.topbar {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.topbar h1 { margin: 0; font-size: 1.25rem; }
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.chapter-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px 4px 4px 16px;
+}
+
+.chapter-info {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.chapter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chapter-num {
+  flex: none;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+}
+
+.chapter-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chapter-title.untitled {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.chapter-meta {
+  display: block;
+  margin: 2px 0 0 38px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.icon-btn:active { background: var(--border); }
+.icon-btn:disabled { opacity: 0.3; cursor: default; }
+
+.btn-primary {
+  width: 100%;
+  min-height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 24px 0;
+}
