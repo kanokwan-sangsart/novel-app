@@ -1,5 +1,6 @@
 import { renderList } from './list.js';
 import { renderEditor } from './editor.js';
+import { renderBackup } from './backup.js';
 
 const app = document.getElementById('app');
 let cleanup = null;
@@ -13,8 +14,10 @@ function route() {
   const hash = location.hash || '#/';
   const match = hash.match(/^#\/chapter\/(.+)$/);
 
-  if (match) {
+    if (match) {
     cleanup = renderEditor(app, match[1]);
+  } else if (hash === '#/backup') {
+    cleanup = renderBackup(app);
   } else {
     renderList(app);
   }

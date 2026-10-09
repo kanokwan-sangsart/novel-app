@@ -210,3 +210,80 @@ main {
   font-size: 0.85rem;
   color: var(--muted);
 }
+
+/* หัวหน้าแรก */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.top-link {
+  flex: none;
+  padding: 10px 4px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* แถบเตือนสำรองข้อมูล */
+.banner {
+  display: block;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* การ์ดเขียนต่อ */
+.continue-card {
+  display: block;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--on-accent);
+  text-decoration: none;
+}
+.continue-label { display: block; font-size: 0.8rem; opacity: 0.85; }
+.continue-title {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.continue-next {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* หน้าสำรอง/นำเข้า */
+.panel {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+}
+.panel h2 { margin: 0 0 6px; font-size: 1.05rem; }
+.panel p { margin: 0 0 12px; color: var(--muted); font-size: 0.9rem; }
+
+.btn-secondary {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
