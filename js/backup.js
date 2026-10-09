@@ -1,4 +1,4 @@
-import { data, novel } from './state.js';
+   import { data } from './state.js';
 import {
   isValidData,
   saveData,
@@ -48,11 +48,12 @@ export function renderBackup(app) {
         <input type="file" id="import-file" accept=".json,application/json" hidden>
       </section>
 
-      <section class="panel">
-        <h2>ส่งออกเป็นข้อความ</h2>
-        <p>รวมทุกบทตามลำดับในเรื่อง เป็นไฟล์ .txt สำหรับนำไปวางที่อื่น</p>
-        <button class="btn-secondary" id="export-txt">ดาวน์โหลดเป็น .txt</button>
-      </section>
+         <section class="panel">
+     <h2>ส่งออกเป็นข้อความ</h2>
+     <p>รวมทุกบทของเรื่องที่เลือก ตามลำดับในเรื่อง เป็นไฟล์ .txt</p>
+     <select class="status-select" id="txt-novel"></select>
+     <button class="btn-secondary" id="export-txt">ดาวน์โหลดเป็น .txt</button>
+   </section>
     </div>
   `;
 
@@ -71,10 +72,23 @@ export function renderBackup(app) {
     lastEl.textContent = describeLastBackup();
   });
 
-  document.getElementById('export-txt').addEventListener('click', () => {
-    const name = `${safeFileName(novel.title)}-${todayStamp()}.txt`;
-    downloadFile(name, buildNovelText(novel), 'text/plain');
-  });
+     const novelSelect = document.getElementById('txt-novel');
+   data.novels.forEach(n => {
+     const opt = document.createElement('option');
+     opt.value = n.id;
+     opt.textContent = n.title;
+     novelSelect.appendChild(opt);
+   });
+
+   document.getElementById('export-txt').addEventListener('click', () => {
+     const n = data.novels.find(x => x.id === novelSelect.value);
+     if (!n) {
+       alert('ยังไม่มีนิยายให้ส่งออก');
+       return;
+     }
+     const name = `${safeFileName(n.title)}-${todayStamp()}.txt`;
+     downloadFile(name, buildNovelText(n), 'text/plain');
+   });
 
   document.getElementById('import-btn').addEventListener('click', () => {
     fileInput.click();

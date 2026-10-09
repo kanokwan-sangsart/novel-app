@@ -1,10 +1,10 @@
 import { findChapter, save, STATUSES } from './state.js';
 import { countWords } from './text.js';
 
-export function renderEditor(app, chapterId) {
-  const ch = findChapter(chapterId);
+   export function renderEditor(app, novel, chapterId)  {
+     const ch = findChapter(novel, chapterId);
   if (!ch) {
-    location.hash = '#/'; // ไม่พบบทนี้ กลับไปหน้ารายการ
+       location.hash = `#/n/${novel.id}`; // ไม่พบบทนี้ กลับไปหน้ารายการ
     return null;
   }
 
@@ -100,8 +100,8 @@ export function renderEditor(app, chapterId) {
   );
   statusSelect.addEventListener('change', scheduleSave);
 
-  document.getElementById('back').addEventListener('click', () => {
-    location.hash = '#/';
+    document.getElementById('back').addEventListener('click', () => {
+    location.hash = `#/n/${novel.id}`;
   });
 
   document.addEventListener('visibilitychange', onVisibility);

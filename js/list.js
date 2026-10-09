@@ -1,13 +1,6 @@
-import { novel, save, statusLabel } from './state.js';
-import { newId, getLastBackup } from './storage.js';
-
-
-function formatDate(timestamp) {
-  return new Date(timestamp).toLocaleDateString('th-TH', {
-    day: 'numeric',
-    month: 'short'
-  });
-}
+import { save, statusLabel, latestChapterIndex } from './state.js';
+import { newId } from './storage.js';
+import { formatDate } from './text.js';
 
 function makeButton(label, text, onClick, disabled = false) {
   const btn = document.createElement('button');
@@ -19,36 +12,15 @@ function makeButton(label, text, onClick, disabled = false) {
   return btn;
 }
 
-function makeBanner() {
-  const hasContent = novel.chapters.some(ch => (ch.wordCount || 0) > 0);
-  if (!hasContent) return null;
-
-  const last = getLastBackup();
-  const days = last ? Math.floor((Date.now() - last) / 86400000) : null;
-  if (last && days < 7) return null; // เพิ่งสำรองไว้ ยังไม่ต้องเตือน
-
-  const a = document.createElement('a');
-  a.className = 'banner';
-  a.href = '#/backup';
-  a.textContent = last
-    ? `⚠ สำรองข้อมูลล่าสุดเมื่อ ${days} วันที่แล้ว แตะเพื่อสำรองตอนนี้`
-    : '⚠ ยังไม่เคยสำรองข้อมูล แตะเพื่อสำรองตอนนี้';
-  return a;
-}
-
-function makeContinueCard() {
+function makeContinueCard(novel) {
   if (novel.chapters.length === 0) return null;
 
-  // หาบทที่แก้ไขล่าสุด (ใช้เวลาบอกว่าค้างตรงไหน ไม่ได้ใช้เรียงลำดับ)
-  let index = 0;
-  novel.chapters.forEach((ch, i) => {
-    if ((ch.updatedAt || 0) > (novel.chapters[index].updatedAt || 0)) index = i;
-  });
+  const index = latestChapterIndex(novel);
   const ch = novel.chapters[index];
 
   const a = document.createElement('a');
   a.className = 'continue-card';
-  a.href = `#/chapter/${ch.id}`;
+  a.href = `#/n/${novel.id}/c/${ch.id}`;
 
   const label = document.createElement('span');
   label.className = 'continue-label';
@@ -69,26 +41,34 @@ function makeContinueCard() {
   return a;
 }
 
-export function renderList(app) {
-    app.innerHTML = `
+export function renderList(app, novel) {
+  app.innerHTML = `
     <header class="topbar">
+      <a class="back-link" href="#/" aria-label="กลับไปชั้นนิยาย">←</a>
       <h1 id="novel-title"></h1>
-      <a class="top-link" href="#/backup">สำรอง / นำเข้า</a>
+      <button class="icon-btn" id="rename-novel" aria-label="เปลี่ยนชื่อเรื่อง">✎</button>
     </header>
     <main>
-      <div id="banner-slot"></div>
       <div id="continue-slot"></div>
       <ul class="chapter-list" id="chapter-list"></ul>
       <button class="btn-primary" id="add-chapter">+ เพิ่มบท</button>
     </main>
   `;
-  document.getElementById('novel-title').textContent = novel.title;
-  const listEl = document.getElementById('chapter-list');
 
-  const banner = makeBanner();
-  if (banner) document.getElementById('banner-slot').appendChild(banner);
-  const card = makeContinueCard();
+  const titleEl = document.getElementById('novel-title');
+  const listEl = document.getElementById('chapter-list');
+  titleEl.textContent = novel.title;
+
+  const card = makeContinueCard(novel);
   if (card) document.getElementById('continue-slot').appendChild(card);
+
+  document.getElementById('rename-novel').addEventListener('click', () => {
+    const title = prompt('ชื่อเรื่อง', novel.title);
+    if (title === null) return;
+    novel.title = title.trim() || novel.title;
+    save();
+    titleEl.textContent = novel.title;
+  });
 
   document.getElementById('add-chapter').addEventListener('click', addChapter);
 
@@ -106,7 +86,7 @@ export function renderList(app) {
     };
     novel.chapters.push(ch);
     save();
-    location.hash = `#/chapter/${ch.id}`; // เพิ่มแล้วเข้าหน้าเขียนเลย
+    location.hash = `#/n/${novel.id}/c/${ch.id}`; // เพิ่มแล้วเข้าหน้าเขียนเลย
   }
 
   function moveChapter(index, direction) {
@@ -176,7 +156,7 @@ export function renderList(app) {
       }
 
       info.addEventListener('click', () => {
-        location.hash = `#/chapter/${ch.id}`;
+        location.hash = `#/n/${novel.id}/c/${ch.id}`;
       });
 
       li.append(

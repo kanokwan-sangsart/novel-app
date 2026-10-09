@@ -13,3 +13,11 @@ export function countWords(text) {
   }
   return count;
 }
+
+export function formatDate(timestamp) {
+  if (!timestamp) return '-';
+  return new Date(timestamp).toLocaleDateString('th-TH', {
+    day: 'numeric',
+    month: 'short'
+  });
+}

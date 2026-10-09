@@ -287,3 +287,28 @@ main {
   font-size: 1rem;
   cursor: pointer;
 }
+
+.topbar h1 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.back-link {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -8px 0 -8px -12px;
+  color: var(--text);
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+.novel-item .chapter-meta { margin-left: 0; }
+
+.panel select { margin-bottom: 12px; }
+

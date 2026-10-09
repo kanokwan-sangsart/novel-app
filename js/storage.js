@@ -51,7 +51,6 @@ export function isValidData(obj) {
     typeof obj.version === 'number' &&
     obj.version <= DATA_VERSION &&
     Array.isArray(obj.novels) &&
-    obj.novels.length > 0 &&
     obj.novels.every(
       n =>
         n &&
@@ -62,9 +61,9 @@ export function isValidData(obj) {
 }
 
 // เก็บสำเนาข้อมูลปัจจุบันไว้ก่อนนำเข้าไฟล์ใหม่
-export function keepSafetyCopy() {
+export function keepSafetyCopy(reason = 'before-import') {
   const current = localStorage.getItem(KEY);
-  if (current) localStorage.setItem(KEY + '-before-import', current);
+  if (current) localStorage.setItem(KEY + '-' + reason, current);
 }
 
 export function getLastBackup() {
